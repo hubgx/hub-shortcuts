@@ -1,10 +1,22 @@
 #!/usr/bin/env bash
-# Returns deployment file of said box
+# description: Returns deployment file of said box
+# input: SERIAL_NUMBER
+UUID_REGEX=([a-zA-Z0-9]+-)+[a-zA-Z0-9]+
+
 echo "input1:" $1
 TARGET_GB_SN=$(echo $1 | grep -E "$GBX_SN")
 echo "serial number:" $TARGET_GB_SN
 
-gxctl get deploy -S $TARGET_GB_SN
-echo "Received data from gxctl:" $DEP_DATA
-DEP_DATA=$(gxctl get deploy -S $TARGET_GB_SN | grep -E "monitoring" | grep -E "^( )*[a-zA-Z0-9][a-zA-Z0-9\-]*" -o)
-echo $DEP_DATA
+# Get monitoring deployment id from serial number
+DEP_ID=$(gxctl get deploy -S $TARGET_GB_SN | grep -Eo "^( )*$UUID_REGEX( )+monitoring" | grep -Eo "$UUID_REGEX")
+echo $DEP_ID
+if [ $DEP_ID = "" ]
+then
+  echo "Empty deployment data"
+  exit 1
+else
+  echo "deployment_id: " $DEP_ID
+fi
+
+
+
