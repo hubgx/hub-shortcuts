@@ -40,7 +40,7 @@ echo "status: " $GBX_STATUS
 GBX_PUBLIC_IP=$(gxctl get device -S $TARGET_GB_SN --show-public-ip | grep -E "$IP_REGEX")
 if [[ "$GBX_PUBLIC_IP" == "" ]]
 then
-  echo "impossible to find ip, profile might be badly configured"
+  echo "impossible to find ip (profile might be badly configured, or not logged in)"
   echo "  ip_received: " $GBX_PUBLIC_IP
   exit 1
 else
@@ -70,7 +70,7 @@ else
 fi
 
 # Get and show image(s)
-DEPLOYMENTS=$(gxctl get deploy $DEP_ID -o yaml | grep -Eo "gridbox[a-zA-Z0-9\-]+\:[a-zA-Z0-9\_\-]*")
+DEPLOYMENTS=$(gxctl get deploy $DEP_ID -o yaml | grep -Eo "gridbox[a-zA-Z0-9\-]+\:[a-zA-Z0-9\_\-\.]*")
 echo "    - attached_images:"
 for DEPLOY in $DEPLOYMENTS
 do
