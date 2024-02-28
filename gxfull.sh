@@ -70,7 +70,7 @@ else
 fi
 
 # Get and show image(s)
-DEPLOYMENTS=$(gxctl get deploy $DEP_ID -o yaml | grep -Eo "gridbox[a-zA-Z0-9\-]+\:[a-zA-Z0-9\_\-\.]*")
+DEPLOYMENTS=$(gxctl get deploy $DEP_ID -o yaml | grep -Eo "gridbox[a-zA-Z0-9\-]+\:.*")
 echo "    - attached_images:"
 for DEPLOY in $DEPLOYMENTS
 do
